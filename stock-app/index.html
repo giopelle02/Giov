@@ -7,135 +7,31 @@
   <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
   <style>
     :root {
-      --bg: #131722;
-      --panel: #1e222d;
-      --panel2: #252a37;
-      --border: #2a2e39;
-      --text: #d1d4dc;
-      --dim: #787b86;
-      --blue: #2962ff;
-      --up: #26a69a;
-      --down: #ef5350;
+      --bg: #131722; --panel: #1e222d; --panel2: #252a37; --border: #2a2e39;
+      --text: #d1d4dc; --dim: #787b86; --blue: #2962ff; --up: #26a69a; --down: #ef5350;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', 'Segoe UI', sans-serif; min-height: 100vh; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', 'Segoe UI', sans-serif;
-      min-height: 100vh;
-    }
-
-    /* ── Top bar ─────────────────────────────────── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 22px;
-      background: rgba(19,23,34,0.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      user-select: none;
-    }
-
+    header { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 10px; padding: 12px 22px; background: rgba(19,23,34,0.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .logo { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
     .logo-mark { font-size: 1.35rem; }
-
-    .logo-text {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: var(--text);
-    }
+    .logo-text { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.3px; color: var(--text); }
     .logo-text span { color: var(--blue); }
-
     .logo:hover .logo-text { opacity: 0.85; }
+    .home-hint { margin-left: auto; font-size: 0.72rem; color: var(--dim); }
 
-    .home-hint {
-      margin-left: auto;
-      font-size: 0.72rem;
-      color: var(--dim);
-    }
-
-    /* ── Search ──────────────────────────────────── */
-    .search-wrap {
-      max-width: 720px;
-      margin: 36px auto 0;
-      padding: 0 20px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--dim);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-
-    .search-box {
-      position: relative;
-      display: flex;
-      gap: 10px;
-    }
-
-    .search-box input {
-      flex: 1;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 1.05rem;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
+    .search-wrap { max-width: 720px; margin: 36px auto 0; padding: 0 20px; }
+    .subtitle { text-align: center; color: var(--dim); font-size: 0.95rem; margin-bottom: 20px; }
+    .search-box { position: relative; display: flex; gap: 10px; }
+    .search-box input { flex: 1; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; font-size: 1.05rem; color: var(--text); outline: none; transition: border-color 0.2s; }
     .search-box input::placeholder { color: #5a5f6b; }
-
-    .search-box input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(41,98,255,0.15);
-    }
-
-    .search-box button {
-      background: var(--blue);
-      border: none;
-      border-radius: 10px;
-      padding: 14px 26px;
-      color: white;
-      font-size: 0.98rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: filter 0.2s;
-    }
+    .search-box input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(41,98,255,0.15); }
+    .search-box button { background: var(--blue); border: none; border-radius: 10px; padding: 14px 26px; color: white; font-size: 0.98rem; font-weight: 600; cursor: pointer; transition: filter 0.2s; }
     .search-box button:hover { filter: brightness(1.1); }
 
-    /* ── Autocomplete ────────────────────────────── */
-    .autocomplete {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0; right: 0;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      z-index: 30;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-    }
-    .ac-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 11px 16px; cursor: pointer;
-      border-bottom: 1px solid var(--border);
-    }
+    .autocomplete { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; z-index: 30; box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+    .ac-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; cursor: pointer; border-bottom: 1px solid var(--border); }
     .ac-item:last-child { border-bottom: none; }
     .ac-item:hover, .ac-item.active { background: var(--panel2); }
     .ac-symbol { font-weight: 700; color: var(--blue); min-width: 64px; font-size: 0.95rem; }
@@ -143,20 +39,10 @@
     .ac-exch { font-size: 0.68rem; color: var(--dim); background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 2px 9px; white-space: nowrap; }
     .ac-empty { padding: 14px 16px; font-size: 0.85rem; color: var(--dim); text-align: center; }
 
-    /* ── Result container ────────────────────────── */
     #result { max-width: 920px; margin: 28px auto 60px; padding: 0 20px; }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 22px;
-      margin-bottom: 16px;
-      animation: fadeIn 0.3s ease;
-    }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 16px; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from {opacity:0;transform:translateY(8px);} to {opacity:1;transform:translateY(0);} }
 
-    /* ── Header titolo ───────────────────────────── */
     .stock-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
     .stock-logo { width: 46px; height: 46px; border-radius: 9px; background: var(--panel2); object-fit: contain; }
     .stock-id { flex: 1; min-width: 180px; }
@@ -165,57 +51,31 @@
     .stock-price { text-align: right; }
     .price-value { font-size: 1.7rem; font-weight: 700; }
     .price-change { font-size: 0.9rem; font-weight: 600; margin-top: 2px; }
-    .badge-rating {
-      font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-      background: rgba(38,166,154,0.15); color: var(--up); border: 1px solid rgba(38,166,154,0.3);
-    }
+    .badge-rating { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(38,166,154,0.15); color: var(--up); border: 1px solid rgba(38,166,154,0.3); }
+    .up { color: var(--up); } .down { color: var(--down); }
 
-    .up   { color: var(--up); }
-    .down { color: var(--down); }
-
-    /* ── Chart panel ─────────────────────────────── */
     .chart-wrap { display: flex; gap: 16px; align-items: stretch; }
     .chart-area { flex: 1; min-width: 0; height: 360px; }
-    .chart-side {
-      width: 150px; flex-shrink: 0;
-      display: flex; flex-direction: column; justify-content: center;
-      border-left: 1px solid var(--border); padding-left: 16px;
-    }
+    .chart-side { width: 150px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--border); padding-left: 16px; }
     .side-label { font-size: 0.72rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
     .side-pct { font-size: 1.9rem; font-weight: 800; line-height: 1.1; }
     .side-abs { font-size: 0.95rem; font-weight: 600; margin-top: 2px; }
     .side-dim { color: var(--dim); }
-
-    .chart-loading, .chart-fallback {
-      height: 360px; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 0.9rem;
-    }
+    .chart-loading, .chart-fallback { height: 360px; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 0.9rem; }
 
     .range-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
-    .range-tab {
-      background: transparent; border: 1px solid var(--border); color: var(--dim);
-      border-radius: 7px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600;
-      cursor: pointer; transition: all 0.15s;
-    }
+    .range-tab { background: transparent; border: 1px solid var(--border); color: var(--dim); border-radius: 7px; padding: 6px 12px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
     .range-tab:hover { color: var(--text); border-color: var(--dim); }
     .range-tab.active { background: var(--blue); color: white; border-color: var(--blue); }
 
-    /* ── Sezioni ─────────────────────────────────── */
-    .section-title {
-      font-size: 0.78rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em;
-      font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
-    }
+    .section-title { font-size: 0.78rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 
-    /* ── Stats grid ──────────────────────────────── */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 1px; background: var(--border); border-radius: 8px; overflow: hidden; }
     .stat { background: var(--panel); padding: 13px 15px; }
     .stat-label { font-size: 0.74rem; color: var(--dim); margin-bottom: 4px; }
     .stat-value { font-size: 1.02rem; font-weight: 700; }
 
-    /* ── Profilo ─────────────────────────────────── */
-    .profile-desc {
-      font-size: 0.88rem; line-height: 1.6; color: var(--text); margin-bottom: 14px;
-      display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
-    }
+    .profile-desc { font-size: 0.88rem; line-height: 1.6; color: var(--text); margin-bottom: 14px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
     .profile-desc.expanded { -webkit-line-clamp: unset; }
     .desc-toggle { background: none; border: none; color: var(--blue); font-size: 0.82rem; cursor: pointer; padding: 0; margin-bottom: 16px; font-weight: 600; }
     .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 12px; }
@@ -224,57 +84,34 @@
     .info-item a { color: var(--blue); text-decoration: none; }
     .info-item a:hover { text-decoration: underline; }
 
-    /* ── News (scroll orizzontale) ───────────────── */
-    .news-scroll {
-      display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px;
-      scroll-snap-type: x proximity;
-    }
+    .news-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x proximity; }
     .news-scroll::-webkit-scrollbar { height: 8px; }
     .news-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
     .news-scroll::-webkit-scrollbar-track { background: transparent; }
-    .news-card {
-      flex: 0 0 258px; scroll-snap-align: start;
-      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-      overflow: hidden; text-decoration: none; color: var(--text);
-      display: flex; flex-direction: column; transition: border-color 0.15s, transform 0.15s;
-    }
+    .news-card { flex: 0 0 258px; scroll-snap-align: start; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; text-decoration: none; color: var(--text); display: flex; flex-direction: column; transition: border-color 0.15s, transform 0.15s; }
     .news-card:hover { border-color: var(--blue); transform: translateY(-3px); }
     .news-thumb { width: 100%; height: 130px; object-fit: cover; background: linear-gradient(135deg, var(--panel2), var(--panel)); }
     .news-body { padding: 12px 13px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
     .news-meta { display: flex; align-items: center; gap: 7px; font-size: 0.72rem; color: var(--dim); }
     .news-source { font-weight: 700; color: var(--blue); }
     .news-dot { opacity: 0.5; }
-    .news-title {
-      font-size: 0.86rem; font-weight: 600; line-height: 1.4;
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-    }
+    .news-title { font-size: 0.86rem; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
     .news-badge { font-size: 0.62rem; background: var(--down); color: #fff; border-radius: 4px; padding: 1px 5px; font-weight: 700; }
 
-    /* ── Forse cercavi ───────────────────────────── */
     .suggest-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .suggest-sub { font-size: 0.82rem; color: var(--dim); margin-bottom: 16px; }
-    .suggest-item {
-      display: flex; align-items: center; gap: 12px; background: var(--bg);
-      border: 1px solid var(--border); border-radius: 9px; padding: 12px 16px; margin-bottom: 8px;
-      cursor: pointer; transition: all 0.15s;
-    }
+    .suggest-item { display: flex; align-items: center; gap: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; }
     .suggest-item:hover { border-color: var(--blue); transform: translateX(3px); }
     .suggest-item .ac-symbol { min-width: 78px; }
 
-    /* ── Sorgenti ────────────────────────────────── */
     .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .source-card {
-      display: flex; align-items: center; gap: 10px; background: var(--bg);
-      border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px;
-      text-decoration: none; color: var(--text); transition: all 0.15s;
-    }
+    .source-card { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; text-decoration: none; color: var(--text); transition: all 0.15s; }
     .source-card:hover { border-color: var(--blue); transform: translateY(-2px); }
     .source-icon { font-size: 1.35rem; }
     .source-name { font-size: 0.9rem; font-weight: 600; }
     .source-note { font-size: 0.7rem; color: var(--dim); margin-top: 1px; }
     .source-note.login { color: #e2a33b; }
 
-    /* ── Misc ────────────────────────────────────── */
     .error-card { background: rgba(239,83,80,0.08); border: 1px solid rgba(239,83,80,0.4); border-radius: 12px; padding: 22px; color: var(--down); text-align: center; }
     .loading { text-align: center; color: var(--dim); padding: 50px; }
     .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
@@ -328,6 +165,19 @@
     let history = JSON.parse(localStorage.getItem('stockHistory') || '[]');
     const PROXY = 'https://corsproxy.io/?';
 
+    /* ── SICUREZZA: escape dei dati esterni prima dell'inserimento nel DOM ── */
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+        ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+    }
+    // escape per stringhe dentro handler inline tra apici singoli (onclick='...')
+    function jss(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+    // ammette solo URL http/https, altrimenti '#'
+    function safeUrl(u) {
+      try { const x = new URL(u, location.href); return (x.protocol === 'http:' || x.protocol === 'https:') ? x.href : '#'; }
+      catch { return '#'; }
+    }
+
     let acItems = [], acIndex = -1, acTimer = null;
     let currentSymbol = null;
     let lwChart = null;
@@ -345,12 +195,11 @@
         .map(q => ({ symbol: q.symbol, name: q.shortname || q.longname, exch: q.exchDisp || q.exchange || '' }));
     }
 
-    // Serie di prezzi Yahoo per un dato intervallo temporale
     async function fetchSeries(symbol, cfg) {
       let q;
       if (cfg.range) q = `range=${cfg.range}&interval=${cfg.interval}`;
       else { const now = Math.floor(Date.now()/1000); q = `period1=${now - cfg.days*86400}&period2=${now}&interval=${cfg.interval}`; }
-      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?${q}`;
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?${q}`;
       const d = await (await px(url)).json();
       const res = d?.chart?.result?.[0];
       if (!res) return null;
@@ -361,16 +210,14 @@
       return { pts, meta: res.meta };
     }
 
-    // Fondamentali + profilo + news da StockAnalysis (no API key)
     async function fetchOverview(symbol) {
-      const url = `https://stockanalysis.com/api/symbol/s/${symbol}/overview`;
+      const url = `https://stockanalysis.com/api/symbol/s/${encodeURIComponent(symbol)}/overview`;
       const d = await (await px(url)).json();
       return d?.data || null;
     }
 
-    // News di fallback da Yahoo
     async function fetchYahooNews(symbol) {
-      const url = `https://query1.finance.yahoo.com/v1/finance/search?q=${symbol}&quotesCount=0&newsCount=12`;
+      const url = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(symbol)}&quotesCount=0&newsCount=12`;
       const d = await (await px(url)).json();
       return (d?.news || []).map(n => ({
         title: n.title, source: n.publisher, ago: relTime(n.providerPublishTime),
@@ -378,16 +225,14 @@
       }));
     }
 
-    // Fondamentali da CNBC (P/E, EPS, market cap, dividendo)
     async function fetchCNBC(symbol) {
-      const url = `https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=${symbol}&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json`;
+      const url = `https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=${encodeURIComponent(symbol)}&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json`;
       const d = await (await px(url)).json();
       return d?.FormattedQuoteResult?.FormattedQuote?.[0] || null;
     }
 
-    // Fondamentali da Nasdaq (market cap, target, settore, dividendo)
     async function fetchNasdaq(symbol) {
-      const url = `https://api.nasdaq.com/api/quote/${symbol}/summary?assetclass=stocks`;
+      const url = `https://api.nasdaq.com/api/quote/${encodeURIComponent(symbol)}/summary?assetclass=stocks`;
       const d = await (await px(url)).json();
       const sd = d?.data?.summaryData;
       if (!sd) return null;
@@ -409,17 +254,13 @@
       if (v == null || v === '' || v === '0' || /n\/a/i.test(String(v))) return null;
       return v;
     }
-    function asCap(v) {
-      v = valid(v); if (v == null) return null;
-      return /[a-zA-Z]/.test(String(v)) ? v : fmtBig(v);
-    }
+    function asCap(v) { v = valid(v); if (v == null) return null; return /[a-zA-Z]/.test(String(v)) ? v : fmtBig(v); }
 
     async function getFundamentals(symbol) {
       const fund = { sources: [] };
       let news = [], description = null;
       const profile = {};
 
-      // 1) StockAnalysis — la più ricca (fondamentali + profilo + news)
       const sa = await fetchOverview(symbol).catch(() => null);
       if (sa) {
         fund.sources.push('StockAnalysis');
@@ -438,7 +279,6 @@
         if (sa.news?.data?.length) news = sa.news.data.map(normalizeSANews);
       }
 
-      // 2) CNBC — riempie P/E, market cap, EPS, dividendo se mancanti
       if (!valid(fund.peRatio) || !valid(fund.marketCap) || !valid(fund.eps)) {
         const c = await fetchCNBC(symbol).catch(() => null);
         if (c) {
@@ -452,7 +292,6 @@
         }
       }
 
-      // 3) Nasdaq — market cap, target, settore/industria, dividendo
       if (!valid(fund.marketCap) || !valid(fund.target) || !profile.sector) {
         const n = await fetchNasdaq(symbol).catch(() => null);
         if (n) {
@@ -467,9 +306,7 @@
         }
       }
 
-      // 4) News: fallback a Yahoo se StockAnalysis non le ha date
       if (!news.length) news = await fetchYahooNews(symbol).catch(() => []);
-
       return { fund, news, description, profile };
     }
 
@@ -495,12 +332,12 @@
     async function runAutocomplete(q) {
       try { acItems = await searchSymbols(q); } catch { acItems = []; }
       if (input.value.trim().length < 2) return;
-      if (!acItems.length) { acBox.innerHTML = `<div class="ac-empty">Nessun risultato per "${q}"</div>`; showAC(); return; }
+      if (!acItems.length) { acBox.innerHTML = `<div class="ac-empty">Nessun risultato per "${esc(q)}"</div>`; showAC(); return; }
       acBox.innerHTML = acItems.map((it,i) => `
-        <div class="ac-item" data-i="${i}" onmousedown="event.preventDefault();selectSymbol('${it.symbol}')">
-          <span class="ac-symbol">${it.symbol}</span>
-          <span class="ac-name">${it.name}</span>
-          <span class="ac-exch">${it.exch}</span>
+        <div class="ac-item" data-i="${i}" onmousedown="event.preventDefault();selectSymbol('${jss(it.symbol)}')">
+          <span class="ac-symbol">${esc(it.symbol)}</span>
+          <span class="ac-name">${esc(it.name)}</span>
+          <span class="ac-exch">${esc(it.exch)}</span>
         </div>`).join('');
       showAC();
     }
@@ -530,18 +367,18 @@
       const matches = await fuzzySearch(query);
       document.getElementById('subtitle').style.display = '';
       if (!matches.length) {
-        resultDiv.innerHTML = `<div class="panel"><div class="error-card">❌ Nessun titolo trovato per <strong>${query}</strong>.<br><span class="note">Prova con un altro nome o simbolo.</span></div></div>`;
+        resultDiv.innerHTML = `<div class="panel"><div class="error-card">❌ Nessun titolo trovato per <strong>${esc(query)}</strong>.<br><span class="note">Prova con un altro nome o simbolo.</span></div></div>`;
         return;
       }
       resultDiv.innerHTML = `
         <div class="panel">
           <div class="suggest-title">🔍 Forse cercavi…</div>
-          <div class="suggest-sub">Nessuna corrispondenza esatta per "<strong>${query}</strong>". Titoli più simili:</div>
+          <div class="suggest-sub">Nessuna corrispondenza esatta per "<strong>${esc(query)}</strong>". Titoli più simili:</div>
           ${matches.map(m => `
-            <div class="suggest-item" onclick="selectSymbol('${m.symbol}')">
-              <span class="ac-symbol">${m.symbol}</span>
-              <span class="ac-name">${m.name}</span>
-              <span class="ac-exch">${m.exch}</span>
+            <div class="suggest-item" onclick="selectSymbol('${jss(m.symbol)}')">
+              <span class="ac-symbol">${esc(m.symbol)}</span>
+              <span class="ac-name">${esc(m.name)}</span>
+              <span class="ac-exch">${esc(m.exch)}</span>
             </div>`).join('')}
         </div>`;
     }
@@ -565,9 +402,9 @@
       symbol = symbol.toUpperCase();
       currentSymbol = symbol;
       document.getElementById('subtitle').style.display = 'none';
-      resultDiv.innerHTML = `<div class="panel loading"><div class="spinner"></div>Caricamento <strong>${symbol}</strong>…</div>`;
+      resultDiv.innerHTML = `<div class="panel loading"><div class="spinner"></div>Caricamento <strong>${esc(symbol)}</strong>…</div>`;
 
-      const [day, base, info] = await Promise.all([
+      const [day, base, dataInfo] = await Promise.all([
         fetchSeries(symbol, { range:'1d', interval:'5m' }).catch(() => null),
         fetchSeries(symbol, RANGES.find(r => r.k === DEFAULT_RANGE)).catch(() => null),
         getFundamentals(symbol).catch(() => ({ fund:{sources:[]}, news:[], description:null, profile:{} }))
@@ -575,9 +412,8 @@
 
       if (!base || !base.pts.length) { await didYouMean(symbol); return; }
 
-      const { fund, news: newsItems, description, profile } = info;
+      const { fund, news: newsItems, description, profile } = dataInfo;
 
-      // header: prezzo attuale + variazione GIORNALIERA (dalla serie 1d, non dal range del grafico)
       const meta = (day && day.meta) ? day.meta : base.meta;
       const ticker = (meta.symbol || symbol).toUpperCase();
       const price = meta.regularMarketPrice;
@@ -589,21 +425,20 @@
       const exchange = profile.exchange || meta.fullExchangeName || meta.exchangeName || '';
       const name = meta.longName || meta.shortName || ticker;
 
-      // logo (clearbit, opzionale)
       let logo = '';
-      if (profile.website) { const dom = profile.website.replace(/^https?:\/\//,'').replace(/\/.*/,''); logo = `https://logo.clearbit.com/${dom}`; }
+      if (profile.website) { const dom = String(profile.website).replace(/^https?:\/\//,'').replace(/\/.*/,''); logo = `https://logo.clearbit.com/${dom}`; }
 
       resultDiv.innerHTML = `
         <div class="panel">
           <div class="stock-head">
-            ${logo ? `<img class="stock-logo" src="${logo}" onerror="this.style.display='none'">` : ''}
+            ${logo ? `<img class="stock-logo" src="${esc(logo)}" onerror="this.style.display='none'">` : ''}
             <div class="stock-id">
-              <div class="stock-symbol">${ticker}</div>
-              <div class="stock-name">${name}${exchange ? ' · ' + exchange : ''}</div>
+              <div class="stock-symbol">${esc(ticker)}</div>
+              <div class="stock-name">${esc(name)}${exchange ? ' · ' + esc(exchange) : ''}</div>
             </div>
-            ${fund.analysts ? `<span class="badge-rating">Analisti: ${fund.analysts}</span>` : ''}
+            ${fund.analysts ? `<span class="badge-rating">Analisti: ${esc(fund.analysts)}</span>` : ''}
             <div class="stock-price">
-              <div class="price-value">${currency} ${price.toFixed(2)}</div>
+              <div class="price-value">${esc(currency)} ${price.toFixed(2)}</div>
               <div class="price-change ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(change).toFixed(2)} (${Math.abs(changePct).toFixed(2)}%)</div>
             </div>
           </div>
@@ -624,7 +459,6 @@
         ${renderNews(newsItems)}
         ${renderSources(ticker)}`;
 
-      // disegna grafico default
       const first = base.pts[0].c, last = base.pts[base.pts.length-1].c;
       const pct = (last - first) / first * 100;
       drawChart('chartArea', toSeries(base.pts, false), pct >= 0);
@@ -640,7 +474,7 @@
       if (lwChart) { try { lwChart.remove(); } catch {} lwChart = null; }
       el.innerHTML = `<div class="chart-loading"><div class="spinner"></div></div>`;
       const data = await fetchSeries(currentSymbol, cfg).catch(() => null);
-      if (!data || data.pts.length < 2) { el.innerHTML = `<div class="chart-fallback">Dati non disponibili per ${k}</div>`; updatePct(null); return; }
+      if (!data || data.pts.length < 2) { el.innerHTML = `<div class="chart-fallback">Dati non disponibili per ${esc(k)}</div>`; updatePct(null); return; }
       const first = data.pts[0].c, last = data.pts[data.pts.length-1].c;
       const pct = (last - first) / first * 100;
       drawChart('chartArea', toSeries(data.pts, cfg.intraday), pct >= 0);
@@ -648,10 +482,7 @@
     }
 
     function toSeries(pts, intraday) {
-      return pts.map(p => ({
-        time: intraday ? p.t : tsToDate(p.t),
-        value: +p.c
-      }));
+      return pts.map(p => ({ time: intraday ? p.t : tsToDate(p.t), value: +p.c }));
     }
     function tsToDate(ts) { const d = new Date(ts*1000); return { year: d.getFullYear(), month: d.getMonth()+1, day: d.getDate() }; }
 
@@ -672,11 +503,7 @@
       if (window.LightweightCharts && LightweightCharts.createChart) {
         try {
           lwChart = LightweightCharts.createChart(el, { ...CHART_OPTS, width: el.clientWidth, height: el.clientHeight || 360 });
-          const s = lwChart.addAreaSeries({
-            lineColor: color, lineWidth: 2,
-            topColor: up ? 'rgba(38,166,154,0.4)' : 'rgba(239,83,80,0.4)',
-            bottomColor: 'rgba(19,23,34,0)',
-          });
+          const s = lwChart.addAreaSeries({ lineColor: color, lineWidth: 2, topColor: up ? 'rgba(38,166,154,0.4)' : 'rgba(239,83,80,0.4)', bottomColor: 'rgba(19,23,34,0)' });
           s.setData(series);
           lwChart.timeScale().fitContent();
           return;
@@ -703,7 +530,7 @@
       if (pct == null) { el.innerHTML = `<div class="side-dim">Dati n/d</div>`; return; }
       const up = pct >= 0, sign = up ? '+' : '';
       el.innerHTML = `
-        <div class="side-label">Variazione ${k}</div>
+        <div class="side-label">Variazione ${esc(k)}</div>
         <div class="side-pct ${up?'up':'down'}">${sign}${pct.toFixed(2)}%</div>
         <div class="side-abs ${up?'up':'down'}">${sign}${abs.toFixed(2)}</div>`;
     }
@@ -713,7 +540,7 @@
       if (lwChart && el) { try { lwChart.applyOptions({ width: el.clientWidth }); } catch {} }
     });
 
-    /* ── Statistiche chiave (campi normalizzati multi-fonte) ── */
+    /* ── Statistiche chiave ── */
     function renderStats(fund, meta) {
       const rows = [
         ['Capitalizzazione', fund.marketCap], ['P/E (TTM)', fund.peRatio], ['P/E forward', fund.forwardPE],
@@ -728,27 +555,27 @@
       if (meta.regularMarketDayLow && meta.regularMarketDayHigh)
         rows.push(['Range giorno', `${meta.regularMarketDayLow.toFixed(2)} – ${meta.regularMarketDayHigh.toFixed(2)}`]);
       const cells = rows.filter(r => r[1] != null && r[1] !== '' && r[1] !== '-')
-        .map(r => `<div class="stat"><div class="stat-label">${r[0]}</div><div class="stat-value">${r[1]}</div></div>`).join('');
+        .map(r => `<div class="stat"><div class="stat-label">${esc(r[0])}</div><div class="stat-value">${esc(r[1])}</div></div>`).join('');
       const hasFund = fund.sources && fund.sources.length;
       return `<div class="panel">
         <div class="section-title">📊 Statistiche chiave</div>
         <div class="stats-grid">${cells}</div>
-        <div class="note">${hasFund ? `Fonti fondamentali: ${fund.sources.join(' · ')}` : '⚠️ Fondamentali estesi non disponibili per questo titolo — mostrati i dati di mercato.'}</div>
+        <div class="note">${hasFund ? `Fonti fondamentali: ${esc(fund.sources.join(' · '))}` : '⚠️ Fondamentali estesi non disponibili per questo titolo — mostrati i dati di mercato.'}</div>
       </div>`;
     }
 
-    /* ── Profilo azienda (campi normalizzati) ── */
+    /* ── Profilo azienda ── */
     function renderProfile(profile, description) {
       const rows = [
         ['Settore', profile.sector], ['Industria', profile.industry], ['Data IPO', profile.ipoDate],
         ['Dipendenti', profile.employees], ['Borsa', profile.exchange],
-        ['Sito web', profile.website ? `<a href="${profile.website.startsWith('http')?profile.website:'https://'+profile.website}" target="_blank" rel="noopener">${profile.website.replace(/^https?:\/\//,'')}</a>` : null],
+        ['Sito web', profile.website ? `<a href="${safeUrl(profile.website.startsWith('http')?profile.website:'https://'+profile.website)}" target="_blank" rel="noopener">${esc(String(profile.website).replace(/^https?:\/\//,''))}</a>` : null],
       ].filter(r => r[1]);
       if (!description && !rows.length) return '';
-      const info = rows.map(r => `<div class="info-item"><div class="info-k">${r[0]}</div><div>${r[1]}</div></div>`).join('');
+      const info = rows.map(r => `<div class="info-item"><div class="info-k">${esc(r[0])}</div><div>${r[0]==='Sito web'?r[1]:esc(r[1])}</div></div>`).join('');
       return `<div class="panel">
         <div class="section-title">🏢 Profilo</div>
-        ${description ? `<p class="profile-desc" id="descBox">${description}</p>
+        ${description ? `<p class="profile-desc" id="descBox">${esc(description)}</p>
         <button class="desc-toggle" onclick="toggleDesc()">▾ Mostra di più</button>` : ''}
         ${info ? `<div class="info-grid">${info}</div>` : ''}
       </div>`;
@@ -762,7 +589,7 @@
     /* ── News ── */
     function normalizeSANews(n) {
       return { title: n.title, source: n.source, ago: itAgo(n.ago),
-        url: (n.url && n.url.startsWith('http')) ? n.url : `https://www.youtube.com/watch?v=${n.url}`,
+        url: (n.url && String(n.url).startsWith('http')) ? n.url : `https://www.youtube.com/watch?v=${encodeURIComponent(n.url||'')}`,
         img: n.img, video: n.type === 'Video' };
     }
     function renderNews(items) {
@@ -771,15 +598,15 @@
         <div class="section-title">📰 Ultime news <span style="color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0">— scorri →</span></div>
         <div class="news-scroll">
           ${items.map(n => `
-            <a class="news-card" href="${n.url}" target="_blank" rel="noopener">
-              ${n.img ? `<img class="news-thumb" src="${n.img}" onerror="this.style.display='none'">` : `<div class="news-thumb"></div>`}
+            <a class="news-card" href="${safeUrl(n.url)}" target="_blank" rel="noopener">
+              ${n.img ? `<img class="news-thumb" src="${esc(n.img)}" onerror="this.style.display='none'">` : `<div class="news-thumb"></div>`}
               <div class="news-body">
                 <div class="news-meta">
-                  <span class="news-source">${n.source||''}</span>
-                  ${n.ago ? `<span class="news-dot">•</span><span>${n.ago}</span>` : ''}
+                  <span class="news-source">${esc(n.source||'')}</span>
+                  ${n.ago ? `<span class="news-dot">•</span><span>${esc(n.ago)}</span>` : ''}
                   ${n.video ? `<span class="news-badge">▶ VIDEO</span>` : ''}
                 </div>
-                <div class="news-title">${n.title||''}</div>
+                <div class="news-title">${esc(n.title||'')}</div>
               </div>
             </a>`).join('')}
         </div>
@@ -798,12 +625,12 @@
         { name:'Trading 212', icon:'🔵', url:`https://app.trading212.com/`, note:'Login richiesto', login:true },
       ];
       return `<div class="panel">
-        <div class="section-title">🔎 Approfondisci "${ticker}" su</div>
+        <div class="section-title">🔎 Approfondisci "${esc(ticker)}" su</div>
         <div class="sources-grid">
           ${sources.map(s => `
-            <a class="source-card" href="${s.url}" target="_blank" rel="noopener">
+            <a class="source-card" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
               <span class="source-icon">${s.icon}</span>
-              <span><div class="source-name">${s.name}</div><div class="source-note ${s.login?'login':''}">${s.note}</div></span>
+              <span><div class="source-name">${esc(s.name)}</div><div class="source-note ${s.login?'login':''}">${esc(s.note)}</div></span>
             </a>`).join('')}
         </div>
       </div>`;
@@ -812,7 +639,7 @@
     /* ── Tempo relativo ── */
     function itAgo(s) {
       if (!s) return '';
-      return s.replace(/minutes?/,'min').replace(/hours?/,'h').replace(/days?/,'g')
+      return String(s).replace(/minutes?/,'min').replace(/hours?/,'h').replace(/days?/,'g')
               .replace(/seconds?/,'sec').replace(/weeks?/,'sett').replace(/months?/,'mesi')
               .replace(/\bago\b/,'fa');
     }
@@ -845,7 +672,7 @@
       const chips = document.getElementById('historyChips');
       if (!history.length) { section.style.display = 'none'; return; }
       section.style.display = 'block';
-      chips.innerHTML = history.map(t => `<span class="chip" onclick="selectSymbol('${t}')">${t}</span>`).join('');
+      chips.innerHTML = history.map(t => `<span class="chip" onclick="selectSymbol('${jss(t)}')">${esc(t)}</span>`).join('');
     }
   </script>
 </body>
